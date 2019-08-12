@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -8,23 +8,23 @@ let loadingScreen;
 const createLoadingScreen = () => {
   /// create a browser window
   loadingScreen = new BrowserWindow(Object.assign({
-    /// definiamo larghezza e altezza per la window
+    /// set the window height / width
     width: 200,
     height: 400,
-    /// togliamo il frame in alto, ovvero rendiamola floating
+    /// remove the window frame, so it will rendered without frames
     frame: false,
-    /// e impostiamo la trasparenza, fondamentale per creare una loading screen floating
+    /// and set the transparency to true, to remove any kind of background
     transparent: true
   }));
   loadingScreen.setResizable(false);
   loadingScreen.loadURL('file://' + __dirname + '/windows/loading/loading.html');
   loadingScreen.on('closed', () => loadingScreen = null);
   loadingScreen.webContents.on('did-finish-load', () => {
-      loadingScreen.show();
+    loadingScreen.show();
   });
 }
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
@@ -32,7 +32,7 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true
     },
-    /// aggiungiamo la proprietà **show** a false, in modo che la finestra venga creata ma non mostrata finchè il contenuto non ha terminato il suo caricamento
+    /// set show to false, the window will be visible when to loading screen will be removed
     show: false
   });
 
@@ -50,7 +50,7 @@ function createWindow () {
     mainWindow = null
   });
   mainWindow.webContents.on('did-finish-load', () => {
-    /// quando il contenuto ha caricato, chiudiamo la loading screen e mostriamo la main window
+    /// when the content has loaded, hide the loading screen and show the main window
     if (loadingScreen) {
       loadingScreen.close();
     }
@@ -63,7 +63,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createLoadingScreen();
-  /// aggiungiamo un timeout per simulare un caricamento piu lungo, questo non è necessario al fine del tutorial
+  /// add a little timeout for tutorial purposes, remember to remove this
   setTimeout(() => {
     createWindow();
   }, 2000);

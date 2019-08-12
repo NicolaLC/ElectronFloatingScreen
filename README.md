@@ -1,178 +1,164 @@
 # ELECTRON FLOATING SCREEN
 
-## Introduzione
-Questo tutorial tratta la creazione di floating screen utilizzando Electron, nello specifico di una loading screen in stile Discord/Slack/GitKraken.
+## Introduction
 
-[Electron](https://electronjs.org/) è un sistema innovativo che permette di creare applicazioni desktop/mobile sfruttando tutta la potenza, comodità e qualità di una web application.
+This tutorial deals with the creation of floating screens using Electron, specifically a Discord / Slack / GitKraken like loading screen.
 
-Perchè [Electron](https://electronjs.org/) è **sempre di più** la scelta giusta da fare se dobbiamo implementare applicazioni per più sistemi?
-
-1. Possiamo gestire più applicazioni, su diversi environment, mediante un **unico entry point**, ovvero la nostra web app.
-2. Gli aggiornamenti sono **trasversali**, questo significa che una release per la stessa app viene fatta per tutti i sistemi supportati.
-3. Gli aggiornamenti sono **indipendenti**, se ad esempio la nostra app Electron si appoggia ad un url remoto, una volta aggiornata la web app in remoto tutte le applicazioni electron riceveranno l'aggiornamento, in quanto si appoggiano ad un applicazione remota.
-4. Possiamo fornire una web application in un contesto sicuro, eliminando la possibilità, ad esempio, di fare un **inspect** del codice.
-
-Questo tutorial si occupa di introdurre il lettore al mondo electron, con un semplice esempio: la creazione di una loading screen customizzata per le nostre app! Un bellissimo esempio dell'elasticità e potenza di electron.
+[Electron](https://electronjs.org/) is an innovative system that allows you to create desktop / mobile applications taking advantage of all the power, comfort and quality of a web application.
 
 ## L'autore
 
-Mi chiamo [Nicola Castellani](https://www.linkedin.com/in/nicola-castellani-313b9084/) e sono uno sviluppatore Freelance fullstack (BE 40% FE 60%) dal 2018. Mi occupo principalmente di web applications REACT e Angular, ma anche di contenuti 3d, come giochi, app multimediali e contenuti webgl.
-
-Ho deciso di scrivere questo tutorial per dimostrare la potenza di Electron e introdurre lo stesso a chi non lo conoscesse.
-
-## Requisiti minimi
-Per seguire questo tutorial è necessario avere delle conoscenze minime dei seguenti:
-
-1. HTML
-2. Javascript
-3. NPM (e Node ovviamente)
+My name is [Nicola Castellani](https://www.linkedin.com/in/nicola-castellani-313b9084/) and I'm a freelance fullstack developer (BE 40% FE 60%) from 2018. I mainly deal with REACT and Angular web applications, but also with 3D content, such as games, multimedia apps and webgl content.
 
 ## Getting Started
-Per iniziare, seguendo la guida ufficiale di Electron, ci viene consigliato di partire dal loro **boilerplate**:
 
-1. Cloniamo il progetto base di Electron:
+To begin, following the official guide of Electron, we are advised to start from their **boilerplate**:
+
+1. Let's clone and build the basic Electron project:
 
 ```bash
 git clone https://github.com/electron/electron-quick-start
 ```
 
-2. Spostiamoci nella directory del progetto clonato
+2. Move to the root directory:
 
 ```bash
 cd electron-quick-start
 ```
 
-3. Installiamo le dipendenze richieste:
+3. Install dependencies
 
 ```bash
 npm install
 ```
 
-4. Lanciamo il progetto:
+4. Launch the project
 
 ```bash
 npm start
 ```
 
-**PLUS** Personalmente consiglio di utilizzare **yarn** come package manager, soprattutto su Windows, in quanto npm è decisamente più lento e meno furbo:
-
-```bash
-# installa yarn globalmente
-npm i -g yarn
-# installa le dipendenze
-yarn
-#lancia il progetto
-yarn start
-```
-
-Se il tutto è andato a buon fine, si aprirà una finestra Hello World di electron!
+If everything is successful, a Hello World by electron window will open!
 
 ![Electron first image](./electron-quick-start/assets/tutorial/test01.PNG)
 
-## CREARE LA LOADING SCREEN
+## CREATE THE LOADING SCREEN
 
-Ora che abbiamo avviato il tutto con successo non ci resta che procedere con la creazione della loading screen.
+Now that we have started everything successfully, we just have to proceed with the creation of the loading screen.
 
-Navigando nella cartella del progetto, all'interno del file **main.js** troverete un metodo **createWindow**, il quale si occupa di creare la BrowserWindow principale caricando il file index.html del progetto.
+In the project folder, inside the file **main.js**, you will find a method **createWindow**, which takes care of creating the main _BrowserWindow_ by loading the **index.html** file of the project.
 
-Per creare una loading screen la logica è molto semplice, in pratica è necessario creare una seconda BrowserWindow, la quale carica un file html separato, che chiameremo per comodità **loading.html**.
+The process to create a loading screen is very simple, in practice it's necessary to create a second _BrowserWindow_, which loads a separate **html** file, which we will call for convenience **loading.html**.
 
-Procediamo con la creazione di questa screen:
+Let's proceed with the creation of this screen:
 
-1. Creiamo una directory separata per la nostra loading screen:
+1. Create a separate directory for our loading screen:
 
 ```bash
 mkdir windows/loading
 cd windows/loading
 ```
 
-2. Creiamo il file html per la loading screen:
+2. Create the html file for the loading screen:
 
 ```bash
 echo >> loading.html
 ```
 
-3. Possiamo copiare e incollare quanto presente nel file index.html oppure creare un documento html a nostro piacimento. Per questa prima fase è sufficiente copiare il contenuto del file index.html:
+3. We can copy and paste what is present in the index.html file or create an html document according with our needs. For this first step we copy the contents of the index.html file:
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Hello Loading World!</title>
   </head>
   <body>
     <h1>Hello Loading World!</h1>
     <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    We are using Node.js
+    <script>
+      document.write(process.versions.node);</script
+    >, Chromium
+    <script>
+      document.write(process.versions.chrome);</script
+    >, and Electron
+    <script>
+      document.write(process.versions.electron);</script
+    >.
 
     <script>
       // You can also require other files to run in this process
-      require('./renderer.js')
+      require('./renderer.js');
     </script>
   </body>
 </html>
 ```
 
-4. Una volta creato il file loading.html dobbiamo modificare il file main.js in modo che carichi prima la loading screen, e poi quella principale:
+4. Once the loading.html file has been created, we need to modify the main.js file so that it loads the loading screen first, and then the main one:
 
 ```javascript
-/// Questo è il metodo originale, dobbiamo modificarlo affinchè crei anche la loading screen
+/// Before
 app.on('ready', createWindow);
 ```
+
 ```javascript
-/// Questo è il metodo originale, dobbiamo modificarlo affinchè crei anche la loading screen
+/// After
 app.on('ready', () =>
   createLoadingScreen();
-  /// per ora lasciamolo commentato
+  /// for now, let's comment this
   /// createWindow();
 );
 ```
-in questo modo l'applicazione, quando pronta, andrà a richiamare il metodo **createLoadingScreen**, che andiamo a definire in seguito.
 
-5. Definizione del metodo **createLoadingScreen**. Questo metodo ci permette di instanziare una window secondaria, usata per il caricamento:
+by this way the application, when ready, will call up the **createLoadingScreen** method, which will be defined later.
+
+5. Definition of the **createLoadingScreen** method. This method allows us to instantiate a secondary window, used for loading:
 
 ```javascript
-/// Creiamo una variabile globale per mantenere la referenza alla loadingScreen
+/// create a global var, wich will keep a reference to out loadingScreen window
 let loadingScreen;
 const createLoadingScreen = () => {
   /// create a browser window
-  loadingScreen = new BrowserWindow(Object.assign({
-    /// definiamo larghezza e altezza per la window
-    width: 200,
-    height: 400,
-    /// togliamo il frame in alto, ovvero rendiamola floating
-    frame: false,
-    /// e impostiamo la trasparenza, fondamentale per creare una loading screen floating
-    transparent: true
-  }));
+  loadingScreen = new BrowserWindow(
+    Object.assign({
+      /// define width and height for the window
+      width: 200,
+      height: 400,
+      /// remove the window frame, so it will become a frameless window
+      frame: false,
+      /// and set the transparency, to remove any window background color
+      transparent: true
+    })
+  );
   loadingScreen.setResizable(false);
-  loadingScreen.loadURL('file://' + __dirname + '/windows/loading/loading.html');
-  loadingScreen.on('closed', () => loadingScreen = null);
+  loadingScreen.loadURL(
+    'file://' + __dirname + '/windows/loading/loading.html'
+  );
+  loadingScreen.on('closed', () => (loadingScreen = null));
   loadingScreen.webContents.on('did-finish-load', () => {
-      loadingScreen.show();
+    loadingScreen.show();
   });
-}
+};
 ```
 
-Se ora ci riposiziamo nella directory main (electron-quick-start) lanciamo il comando **npm start** l'applicazione verrà renderizzata partendo dalla loading screen, che allo stato attuale non ha alcuno stile, quindi vedrete solo le string del file html. Procediamo con la parte più creativa del nostro tutorial, ovvero la creazione della floating loading screen!
+In the main directory (electron-quick-start) if we launch the command **npm start** the application will be rendered starting from the loading screen, which at present has no style, so you will only see the strings of the html file. Let's proceed with the most creative part of our tutorial, the creation of the floating loading screen!
 
-## PERSONALIZZAZIONE DELLA LOADING SCREEN
+## LOADING SCREEN CUSTOMIZATION
 
-Arrivati a questo punto non ci resta che creare una loading screen di tutto rispetto.
+At this point we just have to create a respectable loading screen.
 
-1. Apriamo il file loading.html, e definiamo layout, stili e altro per la pagina:
+1. Open the file _loading.html_, and define layouts, styles and more for the page:
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>FLOATING LOADING SCREEN</title>
     <style>
-      /* Definiamo lo stile per il nostro wrapper */
+      /* Define the main wrapper style */
       .LoaderWrapper {
         position: absolute;
         top: 0;
@@ -180,13 +166,13 @@ Arrivati a questo punto non ci resta che creare una loading screen di tutto risp
 
         width: 100%;
         height: 100%;
-        
+
         display: flex;
         align-content: center;
         justify-content: center;
         align-items: center;
         justify-items: center;
-        
+
         box-sizing: border-box;
         background-color: black;
       }
@@ -205,33 +191,37 @@ Arrivati a questo punto non ci resta che creare una loading screen di tutto risp
 
     <script>
       // You can also require other files to run in this process
-      require('./renderer.js')
+      require('./renderer.js');
     </script>
   </body>
 </html>
 ```
-Il risultato è il seguente:
+
+The result is the following:
 
 ![Electron first image](./electron-quick-start/assets/tutorial/test02.PNG)
 
-Ovviamente questo è un esempio, potete separare stili e logica in file separati, per semplicità manteniamo tutto in un file per il momento.
+Obviously this is an example, you can separate styles and logic in different files, for simplicity we keep everything in one file for the moment.
 
-**PLUS** Consiglio vivamente di usare l'unità di misura **rem** (Responsive em), per gestire eventuali comportamenti responsive in relazione al font-size dell'elemento **root**;
+**PLUS** I strongly recommend using the unit **rem** (Responsive em), to manage any responsive behavior in relation to the font-size of the element **root**;
 
-2. Una volta creata la nostra loading screen (ragionate come fosse una pagina html, potete fare quello che volete, aggiungere preloader, immagini, svg, webgl e tanto altro ancora), dobbiamo gestire il **dispose** della stessa in modo che venga mostrata la window principale, torniamo quindi nel file **main.js**, all'interno della funzione **createWindow** e aggiungamo la seguente:
+2. Once we have created our loading screen (think of it as an html page, you can do whatever you want, add preloaders, images, svg, webgl and much more), we need to manage the **dispose** event of the window, where the main window will show up.
+
+Return to the file **main.js**, inside the function **createWindow** and add the following:
 
 ```javascript
 [...]
-/// restiamo in ascolto dell'evento did-finish-load del contenuto della window
+/// keep listening on the did-finish-load event, when the mainWindow content has loaded
 mainWindow.webContents.on('did-finish-load', () => {
-  /// quando il contenuto ha caricato, chiudiamo la loading screen e mostriamo la main window
+  /// then close the loading screen window and show the main window
   if (loadingScreen) {
     loadingScreen.close();
   }
   mainWindow.show();
 });
 ```
-Però per far si che la window non venga mostrata finchè carica, dobbiamo rivedere il modo in cui viene instanziata:
+
+To ensure that the window is not shown as long as it is loaded, we need to review the way it is instantiated:
 
 ```javascript
 mainWindow = new BrowserWindow({
@@ -240,19 +230,19 @@ mainWindow = new BrowserWindow({
   webPreferences: {
     nodeIntegration: true
   },
-  /// aggiungiamo la proprietà **show** a false, in modo che la finestra venga creata ma non mostrata finchè il contenuto non ha terminato il suo caricamento
+  /// show to false mean than the window will proceed with its lifecycle, but will not render until we will show it up
   show: false
 })
 [...]
 ```
 
-3. Una volta definita la logica di creazione e dispose della loadingScreen e della mainWindow, dobbiamo ripristinare la chiamata alla funzione **createWindow**:
+3. Once we have defined the creation and dispose of the loading screen and the mainWindow, we need to restore the call to the **createWindow** function:
 
 ```javascript
 [...]
 app.on('ready', () => {
   createLoadingScreen();
-  /// aggiungiamo un timeout per simulare un caricamento piu lungo, questo non è necessario al fine del tutorial
+  /// add a little bit of delay for tutorial purposes, remove when not needed
   setTimeout(() => {
     createWindow();
   }, 2000);
@@ -260,10 +250,10 @@ app.on('ready', () => {
 [...]
 ```
 
-Lanciando di nuovo il comando **npm start** potete verificare il funzionamento della loading screen, resta visibile per 2 secondi circa e poi viene distrutta, per far spazio alla finestra principale.
+By running the **npm start** command again, you can check the loading screen operation, it remains visible for about 2 seconds and then it's destroyed, to show up the main window.
 
-## CONCLUSIONI
+## CONCLUSIONS
 
-Questo tutorial si conclude qui, in questo modo potete non solo creare delle loading screen, ma anche dialog box, finestre secondarie che possono essere create e distrutte in modo dipendente dalla finestra principale.
+This tutorial ends here, by this way you can create also dialog boxes or secondary windows that can be created and destroyed depending on the main window.
 
-Ad esempio nel mio ultimo progetto ho rivisitato le window di default che vengono mostrate come **alert()** o **confirm()**, intercettando gli eventi javascript dalla finestra principale e creando cosi delle window alternative molto piu belle e allineate al sistema operativo che ospita l'applicazione.
+For example in my last project I revisited the default windows that are shown as **alert()** or **confirm()**, intercepting the javascript events from the main window and thus creating much more beautiful and aligned window alternatives to the operating system that hosts the application.

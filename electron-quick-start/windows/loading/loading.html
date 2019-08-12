@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>FLOATING LOADING SCREEN</title>
-    <style>
-      /* Definiamo lo stile per il nostro wrapper */
-      .LoaderWrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
 
-        width: 100%;
-        height: 100%;
-        
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        justify-items: center;
-        
-        box-sizing: border-box;
-        background-color: black;
+<head>
+  <meta charset="UTF-8">
+  <title>FLOATING LOADING SCREEN</title>
+  <style>
+    /* Defines the main wrapper style */
+    .LoaderWrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
 
-        border-radius: 0.5rem;
-      }
+      width: 100%;
+      height: 100%;
 
-      .LoaderContent {
-        color: white;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="LoaderWrapper">
-      <div class="LoaderContent">
-        FLOATING SCREEN!
-      </div>
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      justify-items: center;
+
+      box-sizing: border-box;
+      background-color: black;
+
+      border-radius: 0.5rem;
+    }
+
+    .LoaderContent {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="LoaderWrapper">
+    <div class="LoaderContent">
+      FLOATING SCREEN!
     </div>
+  </div>
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+</body>
+
 </html>
