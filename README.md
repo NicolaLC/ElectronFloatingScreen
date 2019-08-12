@@ -6,7 +6,7 @@ This tutorial deals with the creation of floating screens using Electron, specif
 
 [Electron](https://electronjs.org/) is an innovative system that allows you to create desktop / mobile applications taking advantage of all the power, comfort and quality of a web application.
 
-## L'autore
+## The author
 
 My name is [Nicola Castellani](https://www.linkedin.com/in/nicola-castellani-313b9084/) and I'm a freelance fullstack developer (BE 40% FE 60%) from 2018. I mainly deal with REACT and Angular web applications, but also with 3D content, such as games, multimedia apps and webgl content.
 
